@@ -8,6 +8,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-zoom@2.0.1/dist/chartjs-plugin-zoom.min.js"></script>
 <style>
 /* ===================== THEME VARIABLES ===================== */
 :root {
@@ -750,6 +752,151 @@ footer {
 .fade-in.visible { opacity:1; transform:none; }
 .fd1{transition-delay:0.1s;} .fd2{transition-delay:0.2s;} .fd3{transition-delay:0.3s;} .fd4{transition-delay:0.4s;}
 
+/* ===================== MODAL ===================== */
+.modal {
+  display:none; position:fixed; inset:0; z-index:10000;
+  background:rgba(0,0,0,0.75); backdrop-filter:blur(8px);
+  align-items:center; justify-content:center;
+  animation:fadeIn 0.2s ease;
+}
+.modal.open { display:flex; }
+@keyframes fadeIn { from{opacity:0} to{opacity:1} }
+
+.modal-content {
+  background:var(--bg-card); border:1px solid var(--border);
+  border-radius:16px; max-width:540px; width:90%;
+  max-height:85vh; overflow-y:auto;
+  box-shadow:0 25px 60px rgba(0,0,0,0.6);
+  animation:slideUp 0.25s ease;
+  position:relative;
+}
+@keyframes slideUp { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:none} }
+
+.modal-header {
+  display:flex; align-items:center; justify-content:space-between;
+  padding:1.5rem 1.75rem; border-bottom:1px solid var(--border);
+}
+.modal-title {
+  font-family:var(--font-display); font-size:1.3rem; font-weight:800;
+}
+.modal-close {
+  background:transparent; border:none; font-size:1.8rem;
+  color:var(--text-muted); cursor:pointer; padding:0;
+  width:32px; height:32px; display:flex; align-items:center; justify-content:center;
+  border-radius:6px; transition:all 0.15s;
+}
+.modal-close:hover { background:var(--bg-hover); color:var(--text-primary); }
+
+.modal-body { padding:1.75rem; }
+
+/* AI Chat */
+.ai-chat-container { display:flex; flex-direction:column; gap:1rem; max-height:400px; }
+.ai-message {
+  padding:0.9rem 1.1rem; border-radius:10px; font-size:0.88rem; line-height:1.65;
+  animation:messageSlide 0.3s ease;
+}
+@keyframes messageSlide { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:none} }
+.ai-message.user {
+  background:rgba(0,229,255,0.12); border:1px solid rgba(0,229,255,0.25);
+  align-self:flex-end; max-width:85%;
+}
+.ai-message.assistant {
+  background:var(--bg-surface); border:1px solid var(--border);
+  align-self:flex-start; max-width:92%;
+}
+.ai-message.loading {
+  background:var(--bg-surface); padding:1rem;
+  display:flex; gap:0.4rem; align-items:center; align-self:flex-start;
+}
+.ai-message.loading span {
+  width:6px; height:6px; border-radius:50%; background:var(--accent-cyan);
+  animation:dotPulse 1.2s infinite;
+}
+.ai-message.loading span:nth-child(2){animation-delay:0.2s;}
+.ai-message.loading span:nth-child(3){animation-delay:0.4s;}
+@keyframes dotPulse { 0%,80%,100%{opacity:0.3} 40%{opacity:1} }
+
+.ai-input-row {
+  display:flex; gap:0.6rem; margin-top:0.75rem;
+}
+.ai-input {
+  flex:1; background:var(--input-bg); border:1px solid var(--border);
+  color:var(--text-primary); padding:0.75rem 1rem; border-radius:8px;
+  font-size:0.88rem; outline:none; transition:all 0.2s;
+}
+.ai-input:focus { border-color:var(--accent-cyan); box-shadow:0 0 0 3px rgba(0,229,255,0.1); }
+.ai-send-btn {
+  background:var(--accent-cyan); border:none; color:var(--bg-deep);
+  padding:0.75rem 1.4rem; border-radius:8px; font-weight:600;
+  cursor:pointer; transition:all 0.2s; white-space:nowrap;
+}
+.ai-send-btn:hover { opacity:0.88; }
+.ai-send-btn:disabled { opacity:0.4; cursor:not-allowed; }
+
+/* Login Form */
+.login-form { display:flex; flex-direction:column; gap:1.2rem; }
+.form-group { display:flex; flex-direction:column; gap:0.4rem; }
+.form-group label { font-size:0.8rem; color:var(--text-secondary); font-weight:500; }
+.form-input, .form-select {
+  background:var(--input-bg); border:1px solid var(--border);
+  color:var(--text-primary); padding:0.75rem 1rem;
+  border-radius:8px; font-size:0.88rem; outline:none; transition:all 0.2s;
+}
+.form-input:focus, .form-select:focus {
+  border-color:var(--accent-cyan); box-shadow:0 0 0 3px rgba(0,229,255,0.1);
+}
+.auth-tabs {
+  display:flex; gap:0.5rem; margin-bottom:1.5rem;
+}
+.auth-tab {
+  flex:1; padding:0.7rem; text-align:center; border-radius:8px;
+  font-weight:600; font-size:0.88rem; cursor:pointer;
+  background:transparent; border:1px solid var(--border);
+  color:var(--text-muted); transition:all 0.15s;
+}
+.auth-tab.active {
+  background:var(--accent-cyan); color:var(--bg-deep); border-color:var(--accent-cyan);
+}
+.auth-response {
+  margin-top:1rem; padding:0.8rem 1rem; border-radius:8px;
+  font-size:0.85rem; display:none;
+}
+.auth-response.success {
+  background:rgba(57,255,20,0.1); border:1px solid rgba(57,255,20,0.3);
+  color:var(--accent-green); display:block;
+}
+.auth-response.error {
+  background:rgba(255,45,85,0.1); border:1px solid rgba(255,45,85,0.3);
+  color:var(--accent-red); display:block;
+}
+
+.user-profile-btn {
+  display:flex; align-items:center; gap:0.5rem;
+  background:var(--bg-surface); border:1px solid var(--border);
+  padding:0.4rem 0.9rem; border-radius:8px; cursor:pointer;
+  transition:all 0.2s; color:var(--text-primary); text-decoration:none;
+  font-size:0.85rem; font-weight:500;
+}
+.user-profile-btn:hover { border-color:var(--accent-cyan); }
+.user-avatar {
+  width:26px; height:26px; border-radius:50%;
+  background:linear-gradient(135deg,var(--accent-cyan),var(--accent-green));
+  display:flex; align-items:center; justify-content:center;
+  font-size:0.75rem; font-weight:700; color:var(--bg-deep);
+}
+
+/* Chart zoom controls */
+.chart-zoom-controls {
+  display:flex; gap:0.4rem; margin-top:0.6rem; justify-content:center;
+}
+.zoom-btn {
+  background:transparent; border:1px solid var(--border);
+  color:var(--text-muted); padding:0.3rem 0.7rem;
+  border-radius:6px; font-size:0.72rem; cursor:pointer;
+  transition:all 0.15s; font-family:var(--font-mono);
+}
+.zoom-btn:hover { background:rgba(0,229,255,0.1); border-color:var(--accent-cyan); color:var(--accent-cyan); }
+
 /* ===================== RESPONSIVE ===================== */
 @media(max-width:1024px) {
   .metrics-grid { grid-template-columns:repeat(2,1fr); }
@@ -818,6 +965,24 @@ footer {
       <span class="theme-icon-d">🌙</span>
       <span class="theme-icon-l">☀️</span>
     </button>
+
+    <!-- AI Assistant Button -->
+    <button class="user-profile-btn" onclick="openAIChat()" title="AI Tavsiyalar" style="border:none;background:rgba(57,255,20,0.12);border:1px solid rgba(57,255,20,0.25);">
+      <span style="font-size:1.1rem;">🤖</span>
+      <span data-i18n="ai_btn">AI</span>
+    </button>
+
+    <!-- User Profile / Login -->
+    <div id="user-section">
+      <button class="user-profile-btn" onclick="openAuthModal()" id="login-btn">
+        <span style="font-size:1.1rem;">👤</span>
+        <span data-i18n="login">Kirish</span>
+      </button>
+      <div class="user-profile-btn" onclick="toggleUserMenu()" id="user-profile" style="display:none;">
+        <div class="user-avatar" id="user-avatar">U</div>
+        <span id="user-name">User</span>
+      </div>
+    </div>
 
     <a href="#alert-section" class="nav-links nav-cta" data-i18n="nav_alert">🔔 Alert</a>
   </div>
@@ -916,6 +1081,15 @@ footer {
       <span class="chip" onclick="loadCity('tokyo')">🇯🇵 Tokyo</span>
     </div>
 
+    <!-- Favorites -->
+    <div class="fade-in" style="margin-top:1.5rem;max-width:680px;margin-left:auto;margin-right:auto;">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;">
+        <span style="font-size:0.8rem;color:var(--text-muted);font-family:var(--font-mono);text-transform:uppercase;letter-spacing:0.08em;">⭐ Sevimli Shaharlar</span>
+        <span id="weather-info" style="display:none;font-size:0.8rem;color:var(--text-secondary);font-family:var(--font-mono);gap:1rem;"></span>
+      </div>
+      <div class="search-chips" id="fav-chips"></div>
+    </div>
+
     <!-- Metrics -->
     <div class="metrics-grid" id="metrics-grid" style="margin-top:1.5rem;">
       <div class="metric-card fade-in" style="--card-accent:var(--accent-cyan);">
@@ -959,6 +1133,13 @@ footer {
           </div>
         </div>
         <canvas id="main-chart" class="main-chart"></canvas>
+        
+        <!-- Chart Zoom Controls -->
+        <div class="chart-zoom-controls" id="chart-zoom-controls" style="display:none;">
+          <button class="zoom-btn" onclick="zoomIn()">🔍+ Zoom In</button>
+          <button class="zoom-btn" onclick="zoomOut()">🔍− Zoom Out</button>
+          <button class="zoom-btn" onclick="resetChartZoom()">↻ Reset</button>
+        </div>
 
         <!-- Forecast -->
         <div style="margin-top:1.2rem;">
@@ -1337,6 +1518,71 @@ footer {
   </div>
 </div>
 
+<!-- AI Chat Modal -->
+<div class="modal" id="ai-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title">🤖 AI Tavsiyalar</h3>
+      <button class="modal-close" onclick="closeModal('ai-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="ai-chat-container" id="ai-chat"></div>
+      <div class="ai-input-row">
+        <input type="text" class="ai-input" id="ai-input" placeholder="Savol yozing..." />
+        <button class="ai-send-btn" id="ai-send" onclick="sendAIMessage()">Yuborish</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Auth Modal -->
+<div class="modal" id="auth-modal">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h3 class="modal-title" id="auth-title">Kirish</h3>
+      <button class="modal-close" onclick="closeModal('auth-modal')">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="auth-tabs">
+        <button class="auth-tab active" onclick="switchAuthTab('login')">Kirish</button>
+        <button class="auth-tab" onclick="switchAuthTab('register')">Ro'yxatdan o'tish</button>
+      </div>
+      
+      <!-- Login Form -->
+      <form class="login-form" id="login-form" onsubmit="handleLogin(event)">
+        <div class="form-group">
+          <label for="login-email">Email</label>
+          <input type="email" id="login-email" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label for="login-password">Parol</label>
+          <input type="password" id="login-password" class="form-input" required />
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;">Kirish</button>
+      </form>
+
+      <!-- Register Form -->
+      <form class="login-form" id="register-form" onsubmit="handleRegister(event)" style="display:none;">
+        <div class="form-group">
+          <label for="reg-name">Ism</label>
+          <input type="text" id="reg-name" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label for="reg-email">Email</label>
+          <input type="email" id="reg-email" class="form-input" required />
+        </div>
+        <div class="form-group">
+          <label for="reg-password">Parol</label>
+          <input type="password" id="reg-password" class="form-input" minlength="6" required />
+        </div>
+        <button type="submit" class="btn-primary" style="width:100%;">Ro'yxatdan o'tish</button>
+      </form>
+
+      <div class="auth-response" id="auth-response"></div>
+    </div>
+  </div>
+</div>
+
 <!-- ===================== SCRIPTS ===================== -->
 <script>
 // ============================================================
@@ -1392,8 +1638,9 @@ const TRANSLATIONS = {
     cta_title:"Bugun Havo Sifatini\nKuzatishni Boshlang", cta_sub:"Minglab atrof-muhit muhandislari, tadqiqotchilar va mutaxassislar AirWatch Pro dan foydalanadi.",
     footer_desc:"Real vaqt atmosfera ifloslanishini kuzatish va vizualizatsiya tizimi.",
     footer_product:"Mahsulot", footer_data:"Ma'lumot Manbalari", footer_dev:"Dasturchi",
-    footer_copy:"© 2026 AirWatch Pro — Istamqulov Farzod Abdushurovich · DI22-12",
+    footer_copy:"© 2026 AirWatch Pro — Olimov Muhammad Halim o'g'li · DI23-14",
     privacy:"Maxfiylik", terms:"Shartlar",
+    ai_btn:"AI", login:"Kirish", logout:"Chiqish",
   },
   ru: {
     nav_dashboard:"Панель", nav_features:"Функции", nav_pollutants:"Загрязнители",
@@ -1444,7 +1691,7 @@ const TRANSLATIONS = {
     cta_title:"Начните мониторинг\nкачества воздуха сегодня", cta_sub:"Тысячи экологических инженеров, исследователей и специалистов используют AirWatch Pro.",
     footer_desc:"Система мониторинга и визуализации загрязнения атмосферы в реальном времени.",
     footer_product:"Продукт", footer_data:"Источники данных", footer_dev:"Разработчик",
-    footer_copy:"© 2026 AirWatch Pro — Istamqulov Farzod Abdushurovich · DI22-12",
+    footer_copy:"© 2026 AirWatch Pro — Olimov Muhammad Halim o'g'li · DI23-14",
     privacy:"Конфиденциальность", terms:"Условия",
   },
   en: {
@@ -1496,7 +1743,7 @@ const TRANSLATIONS = {
     cta_title:"Start Monitoring Air\nQuality Today", cta_sub:"Join thousands of environmental engineers, researchers using AirWatch Pro.",
     footer_desc:"Advanced real-time atmospheric pollution detection and visualization system.",
     footer_product:"Product", footer_data:"Data Sources", footer_dev:"Developer",
-    footer_copy:"© 2026 AirWatch Pro — Istamqulov Farzod Abdushurovich · DI22-12",
+    footer_copy:"© 2026 AirWatch Pro — Olimov Muhammad Halim o'g'li · DI23-14",
     privacy:"Privacy", terms:"Terms",
   }
 };
@@ -1808,8 +2055,11 @@ async function loadCity(cityId) {
   currentCityId = cityId;
   const profile = CITY_PROFILES_FE[cityId] || CITY_PROFILES_FE.tashkent;
 
+  // Save to localStorage
+  saveLastCity(cityId);
+
   document.getElementById('city-search').value = profile.name;
-  document.getElementById('chart-loc').textContent = `📍 ${profile.flag} ${profile.name} — AQI`;
+  document.getElementById('chart-loc').innerHTML = `📍 ${profile.flag} ${profile.name} — AQI <button onclick="toggleFavorite('${cityId}')" style="background:transparent;border:none;font-size:1.2rem;cursor:pointer;margin-left:0.5rem;" title="Sevimliga qo'shish">${isFavorite(cityId) ? '⭐' : '☆'}</button>`;
 
   const data = await fetchCityData(cityId);
   const cat = getCategory(data.aqi);
@@ -1825,6 +2075,17 @@ async function loadCity(cityId) {
   document.getElementById('m-pm10-trend').textContent = `▲ +${(Math.random()*8).toFixed(1)} past hour`;
   document.getElementById('m-no2-trend').textContent = `▲ +${(Math.random()*7).toFixed(1)} past hour`;
   document.getElementById('last-update-time').textContent = new Date().toLocaleTimeString();
+
+  // Weather data display (if available)
+  const weatherEl = document.getElementById('weather-info');
+  if (weatherEl && profile.temp !== undefined) {
+    weatherEl.innerHTML = `
+      <span style="margin-right:1rem;">🌡️ ${profile.temp}°C</span>
+      <span style="margin-right:1rem;">💧 ${profile.hum}%</span>
+      <span>💨 ${profile.wind} m/s</span>
+    `;
+    weatherEl.style.display = 'flex';
+  }
 
   // Pollutant bars
   const setBar = (id,val,max) => {
@@ -1853,24 +2114,64 @@ async function loadCity(cityId) {
 }
 
 // ============================================================
-// AUTOCOMPLETE
+// AUTOCOMPLETE & EXPANDED CITY DATABASE
 // ============================================================
 const CITY_LIST = [
-  { id:'tashkent',    name:'Toshkent',     full:"Toshkent, O'zbekiston", flag:'🇺🇿', country:'UZ' },
-  { id:'samarkand',   name:'Samarqand',    full:"Samarqand, O'zbekiston", flag:'🇺🇿', country:'UZ' },
-  { id:'namangan',    name:'Namangan',     full:"Namangan, O'zbekiston", flag:'🇺🇿', country:'UZ' },
-  { id:'fergana',     name:"Farg'ona",     full:"Farg'ona, O'zbekiston", flag:'🇺🇿', country:'UZ' },
-  { id:'bukhara',     name:'Buxoro',       full:"Buxoro, O'zbekiston", flag:'🇺🇿', country:'UZ' },
-  { id:'beijing',     name:'Beijing',      full:'Beijing, Xitoy', flag:'🇨🇳', country:'CN' },
-  { id:'new-delhi',   name:'New Delhi',    full:'New Delhi, Hindiston', flag:'🇮🇳', country:'IN' },
-  { id:'london',      name:'London',       full:'London, Britaniya', flag:'🇬🇧', country:'GB' },
-  { id:'los-angeles', name:'Los Angeles',  full:'Los Angeles, AQSh', flag:'🇺🇸', country:'US' },
-  { id:'tokyo',       name:'Tokyo',        full:'Tokyo, Yaponiya', flag:'🇯🇵', country:'JP' },
-  { id:'moscow',      name:'Moskva',       full:'Moskva, Rossiya', flag:'🇷🇺', country:'RU' },
-  { id:'dubai',       name:'Dubai',        full:'Dubai, BAA', flag:'🇦🇪', country:'AE' },
-  { id:'paris',       name:'Parij',        full:'Parij, Fransiya', flag:'🇫🇷', country:'FR' },
-  { id:'new-york',    name:'Nyu-York',     full:'Nyu-York, AQSh', flag:'🇺🇸', country:'US' },
-  { id:'sydney',      name:'Sidni',        full:'Sidni, Avstraliya', flag:'🇦🇺', country:'AU' },
+  // O'zbekiston (barcha viloyat markazlari va yirik shaharlar)
+  { id:'tashkent',    name:'Toshkent',     full:"Toshkent, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:41.2995, lon:69.2401 },
+  { id:'samarkand',   name:'Samarqand',    full:"Samarqand, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:39.6542, lon:66.9597 },
+  { id:'bukhara',     name:'Buxoro',       full:"Buxoro, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:39.7747, lon:64.4286 },
+  { id:'namangan',    name:'Namangan',     full:"Namangan, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:41.0011, lon:71.6725 },
+  { id:'fergana',     name:"Farg'ona",     full:"Farg'ona, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:40.3842, lon:71.7843 },
+  { id:'andijan',     name:'Andijon',      full:"Andijon, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:40.7821, lon:72.3442 },
+  { id:'nukus',       name:'Nukus',        full:"Nukus, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:42.4531, lon:59.6103 },
+  { id:'urgench',     name:'Urganch',      full:"Urganch, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:41.5500, lon:60.6333 },
+  { id:'karshi',      name:'Qarshi',       full:"Qarshi, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:38.8606, lon:65.7895 },
+  { id:'termez',      name:'Termiz',       full:"Termiz, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:37.2242, lon:67.2783 },
+  { id:'jizzakh',     name:'Jizzax',       full:"Jizzax, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:40.1158, lon:67.8422 },
+  { id:'gulistan',    name:'Guliston',     full:"Guliston, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:40.4897, lon:68.7842 },
+  { id:'navoi',       name:'Navoiy',       full:"Navoiy, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:40.0844, lon:65.3792 },
+  { id:'zarafshan',   name:'Zarafshon',    full:"Zarafshon, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:41.5667, lon:64.2000 },
+  { id:'kokand',      name:'Qo\'qon',      full:"Qo'qon, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:40.5289, lon:70.9428 },
+  { id:'margilan',    name:'Marg\'ilon',   full:"Marg'ilon, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:40.4717, lon:71.7247 },
+  { id:'chirchiq',    name:'Chirchiq',     full:"Chirchiq, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:41.4694, lon:69.5828 },
+  { id:'angren',      name:'Angren',       full:"Angren, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:41.0167, lon:70.1436 },
+  { id:'khiva',       name:'Xiva',         full:"Xiva, O'zbekiston", flag:'🇺🇿', country:'UZ', lat:41.3775, lon:60.3639 },
+  
+  // Markaziy Osiyo
+  { id:'almaty',      name:'Almaty',       full:'Almaty, Qozog\'iston', flag:'🇰🇿', country:'KZ', lat:43.2220, lon:76.8512 },
+  { id:'bishkek',     name:'Bishkek',      full:'Bishkek, Qirg\'iziston', flag:'🇰🇬', country:'KG', lat:42.8746, lon:74.5698 },
+  { id:'dushanbe',    name:'Dushanbe',     full:'Dushanbe, Tojikiston', flag:'🇹🇯', country:'TJ', lat:38.5598, lon:68.7738 },
+  { id:'ashgabat',    name:'Ashgabat',     full:'Ashgabat, Turkmaniston', flag:'🇹🇲', country:'TM', lat:37.9601, lon:58.3261 },
+  
+  // Xalqaro
+  { id:'beijing',     name:'Beijing',      full:'Beijing, Xitoy', flag:'🇨🇳', country:'CN', lat:39.9042, lon:116.4074 },
+  { id:'shanghai',    name:'Shanghai',     full:'Shanghai, Xitoy', flag:'🇨🇳', country:'CN', lat:31.2304, lon:121.4737 },
+  { id:'new-delhi',   name:'New Delhi',    full:'New Delhi, Hindiston', flag:'🇮🇳', country:'IN', lat:28.6139, lon:77.2090 },
+  { id:'mumbai',      name:'Mumbai',       full:'Mumbai, Hindiston', flag:'🇮🇳', country:'IN', lat:19.0760, lon:72.8777 },
+  { id:'london',      name:'London',       full:'London, Britaniya', flag:'🇬🇧', country:'GB', lat:51.5074, lon:-0.1278 },
+  { id:'paris',       name:'Parij',        full:'Parij, Fransiya', flag:'🇫🇷', country:'FR', lat:48.8566, lon:2.3522 },
+  { id:'berlin',      name:'Berlin',       full:'Berlin, Germaniya', flag:'🇩🇪', country:'DE', lat:52.5200, lon:13.4050 },
+  { id:'rome',        name:'Rim',          full:'Rim, Italiya', flag:'🇮🇹', country:'IT', lat:41.9028, lon:12.4964 },
+  { id:'madrid',      name:'Madrid',       full:'Madrid, Ispaniya', flag:'🇪🇸', country:'ES', lat:40.4168, lon:-3.7038 },
+  { id:'moscow',      name:'Moskva',       full:'Moskva, Rossiya', flag:'🇷🇺', country:'RU', lat:55.7558, lon:37.6173 },
+  { id:'istanbul',    name:'Istanbul',     full:'Istanbul, Turkiya', flag:'🇹🇷', country:'TR', lat:41.0082, lon:28.9784 },
+  { id:'dubai',       name:'Dubai',        full:'Dubai, BAA', flag:'🇦🇪', country:'AE', lat:25.2048, lon:55.2708 },
+  { id:'cairo',       name:'Qohira',       full:'Qohira, Misr', flag:'🇪🇬', country:'EG', lat:30.0444, lon:31.2357 },
+  { id:'tokyo',       name:'Tokyo',        full:'Tokyo, Yaponiya', flag:'🇯🇵', country:'JP', lat:35.6762, lon:139.6503 },
+  { id:'seoul',       name:'Seul',         full:'Seul, Janubiy Koreya', flag:'🇰🇷', country:'KR', lat:37.5665, lon:126.9780 },
+  { id:'singapore',   name:'Singapur',     full:'Singapur', flag:'🇸🇬', country:'SG', lat:1.3521, lon:103.8198 },
+  { id:'bangkok',     name:'Bangkok',      full:'Bangkok, Tailand', flag:'🇹🇭', country:'TH', lat:13.7563, lon:100.5018 },
+  { id:'sydney',      name:'Sidni',        full:'Sidni, Avstraliya', flag:'🇦🇺', country:'AU', lat:-33.8688, lon:151.2093 },
+  { id:'melbourne',   name:'Melburn',      full:'Melburn, Avstraliya', flag:'🇦🇺', country:'AU', lat:-37.8136, lon:144.9631 },
+  { id:'new-york',    name:'Nyu-York',     full:'Nyu-York, AQSh', flag:'🇺🇸', country:'US', lat:40.7128, lon:-74.0060 },
+  { id:'los-angeles', name:'Los Angeles',  full:'Los Angeles, AQSh', flag:'🇺🇸', country:'US', lat:34.0522, lon:-118.2437 },
+  { id:'chicago',     name:'Chikago',      full:'Chikago, AQSh', flag:'🇺🇸', country:'US', lat:41.8781, lon:-87.6298 },
+  { id:'toronto',     name:'Toronto',      full:'Toronto, Kanada', flag:'🇨🇦', country:'CA', lat:43.6532, lon:-79.3832 },
+  { id:'mexico-city', name:'Mexiko',       full:'Mexiko, Meksika', flag:'🇲🇽', country:'MX', lat:19.4326, lon:-99.1332 },
+  { id:'sao-paulo',   name:'San-Paulu',    full:'San-Paulu, Braziliya', flag:'🇧🇷', country:'BR', lat:-23.5505, lon:-46.6333 },
+  { id:'buenos-aires',name:'Buenos-Ayres', full:'Buenos-Ayres, Argentina', flag:'🇦🇷', country:'AR', lat:-34.6037, lon:-58.3816 },
+  { id:'cape-town',   name:'Keyptaun',     full:'Keyptaun, JAR', flag:'🇿🇦', country:'ZA', lat:-33.9249, lon:18.4241 },
 ];
 
 // Also support English & Russian names for search
@@ -2091,7 +2392,75 @@ function startLive() {
   },5000);
 }
 
+// ============================================================
+// LOCALSTORAGE — FAVORITES & SETTINGS
+// ============================================================
+const STORAGE_KEY = 'airwatch_data';
+
+function saveToStorage(key, value) {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    data[key] = value;
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+  } catch(e) { console.error('Storage error:', e); }
+}
+
+function loadFromStorage(key, defaultValue = null) {
+  try {
+    const data = JSON.parse(localStorage.getItem(STORAGE_KEY) || '{}');
+    return data[key] !== undefined ? data[key] : defaultValue;
+  } catch(e) { return defaultValue; }
+}
+
+// Favorite cities management
+function toggleFavorite(cityId) {
+  const favorites = loadFromStorage('favorites', []);
+  const idx = favorites.indexOf(cityId);
+  if (idx > -1) {
+    favorites.splice(idx, 1);
+    showToast('💔 O\'chirildi', `${CITY_PROFILES_FE[cityId]?.name || cityId}`);
+  } else {
+    favorites.push(cityId);
+    showToast('⭐ Sevimli qo\'shildi', `${CITY_PROFILES_FE[cityId]?.name || cityId}`);
+  }
+  saveToStorage('favorites', favorites);
+  updateFavoriteUI();
+}
+
+function isFavorite(cityId) {
+  const favorites = loadFromStorage('favorites', []);
+  return favorites.includes(cityId);
+}
+
+function updateFavoriteUI() {
+  const favorites = loadFromStorage('favorites', []);
+  const favChips = document.getElementById('fav-chips');
+  if (!favChips) return;
+  
+  if (favorites.length === 0) {
+    favChips.innerHTML = '<span style="color:var(--text-muted);font-size:0.85rem;">Sevimli shaharlar yo\'q</span>';
+    return;
+  }
+  
+  favChips.innerHTML = favorites.slice(0, 8).map(id => {
+    const p = CITY_PROFILES_FE[id];
+    if (!p) return '';
+    return `<span class="chip" onclick="loadCity('${id}')" title="${p.name}">${p.flag} ${p.name.split(',')[0]}</span>`;
+  }).join('');
+}
+
+// Save last viewed city
+function saveLastCity(cityId) {
+  saveToStorage('lastCity', cityId);
+}
+
+function getLastCity() {
+  return loadFromStorage('lastCity', 'tashkent');
+}
+
+// ============================================================
 // INIT
+// ============================================================
 window.addEventListener('load',async()=>{
   // Load saved preferences
   const savedTheme=localStorage.getItem('aw-theme');
@@ -2099,23 +2468,217 @@ window.addEventListener('load',async()=>{
   const savedLang=localStorage.getItem('aw-lang');
   if(savedLang) setLang(savedLang); else setLang('uz');
 
+  // Load favorites
+  updateFavoriteUI();
+
   // Initialize charts
   drawMap();
   drawChart(makeChartData(CITY_PROFILES_FE.tashkent,'24h'));
 
-  // Load Tashkent by default
-  await loadCity('tashkent');
+  // Load last viewed city (or Tashkent)
+  const lastCity = getLastCity();
+  await loadCity(lastCity);
   await loadRankings();
   await fetchGlobalStats();
 
   startLive();
   setTimeout(()=>showToast('🌍 AirWatch Pro','12,847 stantsiya online — kuzatuv faol'),1200);
+  
+  // Check if user logged in
+  checkAuthStatus();
 });
 
 window.addEventListener('resize',()=>{
   drawChart(makeChartData(CITY_PROFILES_FE[currentCityId]||CITY_PROFILES_FE.tashkent,currentRange));
   drawMap();
 });
+
+// ============================================================
+// AI CHAT FUNCTIONS
+// ============================================================
+function openAIChat() {
+  document.getElementById('ai-modal').classList.add('open');
+  const chat = document.getElementById('ai-chat');
+  if (chat.children.length === 0) {
+    chat.innerHTML = `<div class="ai-message assistant">Salom! Men AirWatch Pro AI yordamchisiman. Havo sifati, AQI indeksi, ifloslantiruvchilar haqida savollaringizga javob beraman. 🌍</div>`;
+  }
+}
+
+async function sendAIMessage() {
+  const input = document.getElementById('ai-input');
+  const chat = document.getElementById('ai-chat');
+  const sendBtn = document.getElementById('ai-send');
+  const msg = input.value.trim();
+  if (!msg) return;
+
+  // Add user message
+  chat.innerHTML += `<div class="ai-message user">${msg}</div>`;
+  input.value = '';
+  sendBtn.disabled = true;
+
+  // Show loading
+  chat.innerHTML += `<div class="ai-message loading"><span></span><span></span><span></span></div>`;
+  chat.scrollTop = chat.scrollHeight;
+
+  // Simulate AI response (replace with actual API call)
+  await new Promise(r => setTimeout(r, 1500));
+  
+  // Remove loading
+  chat.querySelector('.loading')?.remove();
+
+  // Simple rule-based responses (demo)
+  let response = '';
+  const lowerMsg = msg.toLowerCase();
+  
+  if (lowerMsg.includes('aqi') || lowerMsg.includes('indeks')) {
+    response = `AQI (Air Quality Index) — bu havo sifatini o'lchaydigan indeks. 0-50 — yaxshi, 51-100 — o'rtacha, 101+ — sezgirlar uchun zararli. Hozirgi ${CITY_PROFILES_FE[currentCityId]?.name || 'Toshkent'} shahri uchun AQI: ${Math.round(noise(CITY_PROFILES_FE[currentCityId]?.aqi || 145))}`;
+  } else if (lowerMsg.includes('pm2.5') || lowerMsg.includes('pm10')) {
+    response = `PM2.5 va PM10 — bu havoda suzuvchi mayda zarrachalar. PM2.5 juda kichik (2.5 mikron) va eng xavfli, chunki o'pkaga chuqur kirib boradi. PM10 biroz yirikroq. WHO me'yorlari: PM2.5 < 15 μg/m³, PM10 < 45 μg/m³.`;
+  } else if (lowerMsg.includes('tavsiya') || lowerMsg.includes('nima qilish')) {
+    const aqi = Math.round(noise(CITY_PROFILES_FE[currentCityId]?.aqi || 145));
+    if (aqi > 150) response = `⚠️ AQI ${aqi} — zararli daraja! Tavsiya: uyda qoling, maskadan foydalaning, sport mashg'ulotlarini kechiktiring.`;
+    else if (aqi > 100) response = `⚠️ AQI ${aqi} — sezgir kishilar ehtiyot bo'lsin. Tashqarida uzoq vaqt o'tkazmang.`;
+    else response = `✅ AQI ${aqi} — yaxshi! Tashqarida erkin harakat qilishingiz mumkin.`;
+  } else if (lowerMsg.includes('shahar') || lowerMsg.includes('qayerda')) {
+    response = `Men 50+ shahar bo'yicha real-vaqt ma'lumot beraman: Toshkent, Samarqand, Buxoro, Beijing, London, Tokyo va boshqalar. Qidiruvdan foydalaning! 🔍`;
+  } else {
+    response = `Savol bo'yicha qo'shimcha ma'lumot: havo sifati haqida so'rang (AQI, PM2.5, tavsiyalar) yoki boshqa shaharlar haqida savol bering. Men sizga yordam beraman! 😊`;
+  }
+
+  chat.innerHTML += `<div class="ai-message assistant">${response}</div>`;
+  chat.scrollTop = chat.scrollHeight;
+  sendBtn.disabled = false;
+}
+
+// AI input enter key
+document.addEventListener('DOMContentLoaded', () => {
+  const aiInput = document.getElementById('ai-input');
+  if (aiInput) {
+    aiInput.addEventListener('keypress', e => {
+      if (e.key === 'Enter') sendAIMessage();
+    });
+  }
+});
+
+// ============================================================
+// AUTH FUNCTIONS
+// ============================================================
+let currentUser = null;
+
+function openAuthModal() {
+  document.getElementById('auth-modal').classList.add('open');
+}
+
+function closeModal(id) {
+  document.getElementById(id).classList.remove('open');
+}
+
+function switchAuthTab(tab) {
+  document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+  event.target.classList.add('active');
+  
+  if (tab === 'login') {
+    document.getElementById('login-form').style.display = 'flex';
+    document.getElementById('register-form').style.display = 'none';
+    document.getElementById('auth-title').textContent = 'Kirish';
+  } else {
+    document.getElementById('login-form').style.display = 'none';
+    document.getElementById('register-form').style.display = 'flex';
+    document.getElementById('auth-title').textContent = "Ro'yxatdan o'tish";
+  }
+}
+
+async function handleLogin(e) {
+  e.preventDefault();
+  const email = document.getElementById('login-email').value;
+  const password = document.getElementById('login-password').value;
+  const response = document.getElementById('auth-response');
+
+  response.className = 'auth-response';
+  response.textContent = 'Yuklanmoqda...';
+  response.style.display = 'block';
+
+  // Demo auth (replace with real API)
+  await new Promise(r => setTimeout(r, 1000));
+  
+  const user = { name: email.split('@')[0], email, avatar: email[0].toUpperCase() };
+  currentUser = user;
+  saveToStorage('user', user);
+  
+  response.className = 'auth-response success';
+  response.textContent = `✅ Xush kelibsiz, ${user.name}!`;
+  
+  setTimeout(() => {
+    closeModal('auth-modal');
+    updateAuthUI();
+  }, 1200);
+}
+
+async function handleRegister(e) {
+  e.preventDefault();
+  const name = document.getElementById('reg-name').value;
+  const email = document.getElementById('reg-email').value;
+  const password = document.getElementById('reg-password').value;
+  const response = document.getElementById('auth-response');
+
+  response.className = 'auth-response';
+  response.textContent = 'Yuklanmoqda...';
+  response.style.display = 'block';
+
+  // Demo registration
+  await new Promise(r => setTimeout(r, 1000));
+  
+  const user = { name, email, avatar: name[0].toUpperCase() };
+  currentUser = user;
+  saveToStorage('user', user);
+  
+  response.className = 'auth-response success';
+  response.textContent = `✅ Muvaffaqiyat! Xush kelibsiz, ${name}!`;
+  
+  setTimeout(() => {
+    closeModal('auth-modal');
+    updateAuthUI();
+  }, 1200);
+}
+
+function checkAuthStatus() {
+  const user = loadFromStorage('user');
+  if (user) {
+    currentUser = user;
+    updateAuthUI();
+  }
+}
+
+function updateAuthUI() {
+  if (currentUser) {
+    document.getElementById('login-btn').style.display = 'none';
+    document.getElementById('user-profile').style.display = 'flex';
+    document.getElementById('user-avatar').textContent = currentUser.avatar;
+    document.getElementById('user-name').textContent = currentUser.name;
+  }
+}
+
+function logout() {
+  currentUser = null;
+  saveToStorage('user', null);
+  document.getElementById('login-btn').style.display = 'flex';
+  document.getElementById('user-profile').style.display = 'none';
+  showToast('👋 Chiqildi', 'Xayr!');
+}
+
+function toggleUserMenu() {
+  if (confirm(`${currentUser.name}, chiqishni xohlaysizmi?`)) {
+    logout();
+  }
+}
+
+// Close modals on outside click
+window.addEventListener('click', e => {
+  if (e.target.classList.contains('modal')) {
+    e.target.classList.remove('open');
+  }
+});
+
 </script>
 </body>
 </html>

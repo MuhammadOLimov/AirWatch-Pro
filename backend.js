@@ -1,8 +1,7 @@
 /**
  * AirWatch Pro — Backend Server
  * Node.js + Express REST API
- * Author: Farzod Abdushurovich · DI22-12
- * 
+ * Author: Olimov Muhammad Halim o'g'li
  * Run: npm install express cors node-cron ws && node backend.js
  */
 
@@ -579,15 +578,14 @@ server.listen(PORT, () => {
   console.log(`
 ╔══════════════════════════════════════════════════════╗
 ║           AirWatch Pro — Backend Server v2.0         ║
-║                  by Farzod Abdushurovich              ║
+║                  by Olimov Muhammad                  ║
 ╠══════════════════════════════════════════════════════╣
-║  HTTP:       http://localhost:${PORT}                    ║
-║  WebSocket:  ws://localhost:${PORT}/ws/live              ║
-║  API Docs:   http://localhost:${PORT}/api                ║
-║  Health:     http://localhost:${PORT}/api/health         ║
+║  HTTP:       http://localhost:${PORT}                ║
+║  WebSocket:  ws://localhost:${PORT}/ws/live          ║
+║  API Docs:   http://localhost:${PORT}/api            ║
+║  Health:     http://localhost:${PORT}/api/health     ║
 ╠══════════════════════════════════════════════════════╣
-║  Cities monitored: ${CITIES.length}                              ║
-║  Demo API Key: demo-key-12345                        ║
+║  Cities monitored: ${CITIES.length}                  ║
 ╚══════════════════════════════════════════════════════╝
   `);
 });
