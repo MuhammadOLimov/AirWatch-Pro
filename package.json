@@ -2,7 +2,7 @@
   "name": "airwatch-pro",
   "version": "2.0.0",
   "description": "Real-Time Atmospheric Pollution Detection & Visualization System",
-  "author": "Istamqulov Farzod Abdushurovich · DI22-12",
+  "author": "Olimov Muhammad Halim o'g'li · DI23-14",
   "license": "MIT",
   "main": "backend.js",
   "scripts": {
