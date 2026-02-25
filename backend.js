@@ -1,9 +1,4 @@
-/**
- * AirWatch Pro — Backend Server
- * Node.js + Express REST API
- * Author: Olimov Muhammad Halim o'g'li
- * Run: npm install express cors node-cron ws && node backend.js
- */
+
 
 const express = require('express');
 const cors = require('cors');
@@ -578,7 +573,7 @@ server.listen(PORT, () => {
   console.log(`
 ╔══════════════════════════════════════════════════════╗
 ║           AirWatch Pro — Backend Server v2.0         ║
-║                  by Olimov Muhammad                  ║
+║                  by Istamqulov Farzod                ║
 ╠══════════════════════════════════════════════════════╣
 ║  HTTP:       http://localhost:${PORT}                ║
 ║  WebSocket:  ws://localhost:${PORT}/ws/live          ║

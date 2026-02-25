@@ -898,39 +898,249 @@ footer {
 .zoom-btn:hover { background:rgba(0,229,255,0.1); border-color:var(--accent-cyan); color:var(--accent-cyan); }
 
 /* ===================== RESPONSIVE ===================== */
+
+/* Tablet - 1024px */
 @media(max-width:1024px) {
-  .metrics-grid { grid-template-columns:repeat(2,1fr); }
-  .dashboard-grid { grid-template-columns:1fr; }
+  .container { padding:0 1.5rem; }
+  .metrics-grid { grid-template-columns:repeat(2,1fr); gap:1rem; }
+  .dashboard-grid { grid-template-columns:1fr; gap:1rem; }
+  .chart-card, .map-card { padding:1.2rem; }
   .features-grid { grid-template-columns:repeat(2,1fr); }
   .pollutants-grid { grid-template-columns:repeat(2,1fr); }
   .scale-grid { grid-template-columns:repeat(3,1fr); }
   .api-grid { grid-template-columns:1fr; }
-  .footer-grid { grid-template-columns:1fr 1fr; }
-  .table-header, .table-row { grid-template-columns:40px 1fr 80px 100px 120px; }
+  .footer-grid { grid-template-columns:1fr 1fr; gap:2rem; }
+  .table-header, .table-row { grid-template-columns:40px 1fr 80px 100px 120px; font-size:0.85rem; }
   .table-header :nth-child(4), .table-row :nth-child(4) { display:none; }
+  .hero h1 { font-size:2.8rem; }
+  .hero-stats { gap:2rem; }
 }
+
+/* Mobile - 768px */
 @media(max-width:768px) {
+  /* Navigation */
   .nav-links { display:none; }
   .hamburger { display:flex; }
-  nav { padding:0.75rem 1.25rem; }
-  .hero h1 { font-size:2.2rem; }
-  .hero-stats { gap:2rem; }
+  nav { padding:0.75rem 1rem; }
+  .nav-logo { font-size:1rem; }
+  .logo-icon { width:28px; height:28px; }
+  .nav-right { gap:0.5rem; }
+  .lang-switcher { display:none; } /* Hide on mobile to save space */
+  
+  /* Hero */
+  .hero { padding:6rem 1.5rem 4rem; min-height:auto; }
+  .hero h1 { font-size:2rem; line-height:1.1; }
+  .hero-sub { font-size:0.95rem; }
+  .hero-badge { font-size:0.7rem; padding:0.35rem 0.85rem; }
+  .hero-actions { flex-direction:column; width:100%; }
+  .btn-primary, .btn-secondary { width:100%; justify-content:center; }
+  .hero-stats { 
+    flex-direction:column; 
+    gap:1.5rem; 
+    width:100%;
+  }
+  .hero-stat { 
+    width:100%; 
+    text-align:center;
+    padding:1rem;
+    background:rgba(0,229,255,0.05);
+    border-radius:8px;
+  }
+  
+  /* Dashboard */
+  .dashboard-section { padding:3rem 1rem 2rem; }
+  .section-header { margin-bottom:1.5rem; }
+  .section-title { font-size:1.8rem; }
+  .section-sub { font-size:0.88rem; }
+  
+  /* Search */
+  .search-wrapper { margin-bottom:1rem; }
+  .search-input { font-size:0.9rem; padding:0.8rem 1.2rem; }
+  .search-btn { padding:0.45rem 0.8rem; font-size:0.85rem; }
+  .search-chips { gap:0.4rem; }
+  .chip { font-size:0.75rem; padding:0.25rem 0.65rem; }
+  
+  /* Metrics */
+  .metrics-grid { 
+    grid-template-columns:1fr 1fr; 
+    gap:0.75rem; 
+  }
+  .metric-card { padding:1rem 0.9rem; }
+  .m-val { font-size:1.5rem; }
+  .m-label { font-size:0.65rem; }
+  .m-status { font-size:0.7rem; }
+  
+  /* Dashboard Grid */
+  .dashboard-grid { gap:0.75rem; }
+  .chart-card, .map-card { padding:1rem; }
+  .card-title { font-size:0.85rem; }
+  .chart-controls { gap:0.25rem; }
+  .ctrl-btn { padding:0.25rem 0.5rem; font-size:0.68rem; }
+  
+  /* Chart */
+  .main-chart { height:160px !important; }
+  
+  /* Map */
+  #map-canvas { height:150px !important; }
+  
+  /* Forecast */
+  .forecast-row { gap:0.4rem; }
+  .fc-day { min-width:60px; padding:0.5rem 0.6rem; }
+  .fc-day-name { font-size:0.65rem; }
+  .fc-aqi { font-size:1rem; }
+  
+  /* Pollutants */
+  .poll-list { gap:0.45rem; }
+  .poll-row { gap:0.5rem; }
+  .poll-name { font-size:0.7rem; width:38px; }
+  .poll-val { font-size:0.68rem; width:42px; }
+  
+  /* Features */
   .features-grid { grid-template-columns:1fr; }
   .pollutants-grid { grid-template-columns:1fr; }
-  .scale-grid { grid-template-columns:repeat(2,1fr); }
+  .scale-grid { grid-template-columns:repeat(2,1fr); gap:0.75rem; }
+  
+  /* Rankings */
+  .rankings-section { padding:3rem 1rem; }
+  .table-header, .table-row { 
+    grid-template-columns:30px 1fr 70px 90px; 
+    padding:0.7rem 0.9rem;
+    font-size:0.8rem;
+  }
+  .table-header :nth-child(4), .table-row :nth-child(4),
+  .table-header :nth-child(3), .table-row :nth-child(3) { display:none; }
+  .rank-num { font-size:0.75rem; }
+  .city-name-cell { font-size:0.85rem; }
+  .aqi-badge { font-size:0.75rem; padding:0.18rem 0.5rem; }
+  
+  /* Footer */
   .footer-grid { grid-template-columns:1fr; gap:1.75rem; }
   .cta-box { padding:2rem 1.25rem; }
   .form-grid { grid-template-columns:1fr; }
-  .table-header, .table-row { grid-template-columns:40px 1fr 80px 120px; }
-  .table-header :nth-child(4), .table-row :nth-child(4),
-  .table-header :nth-child(3), .table-row :nth-child(3) { display:none; }
-  .partners-logos { gap:1.5rem; }
+  
+  /* Modals */
+  .modal-content { width:92%; }
+  .modal-header { padding:1.2rem 1.5rem; }
+  .modal-title { font-size:1.1rem; }
+  .modal-body { padding:1.5rem; }
+  
+  /* API Status */
+  .api-status-bar { 
+    flex-direction:column; 
+    align-items:flex-start; 
+    gap:0.75rem;
+    padding:0.8rem 1rem;
+  }
+  .api-stat-item { font-size:0.75rem; }
 }
+
+/* Small Mobile - 480px */
 @media(max-width:480px) {
-  .metrics-grid { grid-template-columns:1fr 1fr; }
-  .hero-stat .num { font-size:1.5rem; }
-  .scale-grid { grid-template-columns:1fr 1fr; }
+  /* Navigation */
+  nav { padding:0.6rem 0.75rem; }
+  .theme-toggle { width:36px; height:20px; }
+  .theme-toggle::before { width:14px; height:14px; }
+  
+  /* Hero */
+  .hero { padding:5rem 1rem 3rem; }
+  .hero h1 { font-size:1.6rem; }
+  .hero-sub { font-size:0.85rem; }
+  .hero-stat .num { font-size:1.4rem; }
+  .hero-stat .lbl { font-size:0.7rem; }
+  
+  /* Metrics - Single Column for very small screens */
+  .metrics-grid { 
+    grid-template-columns:1fr; 
+    gap:0.65rem; 
+  }
+  .metric-card { padding:0.9rem; }
+  
+  /* Dashboard */
+  .section-title { font-size:1.5rem; }
+  .chart-card, .map-card { padding:0.85rem; }
+  
+  /* Chart smaller */
+  .main-chart { height:140px !important; }
+  #map-canvas { height:130px !important; }
+  
+  /* Forecast */
+  .fc-day { min-width:55px; padding:0.45rem 0.5rem; }
+  .fc-aqi { font-size:0.95rem; }
+  
+  /* Scale Grid */
+  .scale-grid { grid-template-columns:1fr; gap:0.65rem; }
+  
+  /* Rankings */
+  .table-header, .table-row { 
+    grid-template-columns:25px 1fr 60px; 
+    padding:0.6rem 0.75rem;
+    font-size:0.75rem;
+  }
+  .table-header :nth-child(5), .table-row :nth-child(5),
+  .table-header :nth-child(4), .table-row :nth-child(4) { display:none; }
+  .city-name-cell { font-size:0.8rem; }
+  
+  /* Modal */
+  .modal-content { width:95%; }
+  .modal-header { padding:1rem; }
+  .modal-body { padding:1rem; }
+  
+  /* Toast */
+  .toast { 
+    bottom:1rem; 
+    right:1rem; 
+    left:1rem; 
+    max-width:none;
+    padding:0.8rem 1rem;
+  }
 }
+
+/* Extra Small - 360px */
+@media(max-width:360px) {
+  .hero h1 { font-size:1.4rem; }
+  .section-title { font-size:1.3rem; }
+  .m-val { font-size:1.3rem; }
+  .table-header, .table-row { font-size:0.7rem; padding:0.5rem; }
+}
+
+/* Mobile Touch Improvements */
+@media (hover: none) and (pointer: coarse) {
+  /* Larger touch targets */
+  .chip, .ctrl-btn, .zoom-btn { 
+    min-height:44px; 
+    display:inline-flex; 
+    align-items:center; 
+    justify-content:center;
+  }
+  .table-row { min-height:56px; }
+  .nav-links a { padding:0.75rem 1rem; }
+  
+  /* Remove hover effects on touch */
+  * { 
+    -webkit-tap-highlight-color:rgba(0,229,255,0.2);
+  }
+}
+
+/* Prevent text selection on UI elements */
+.chip, .ctrl-btn, .zoom-btn, .table-row, .metric-card {
+  -webkit-user-select:none;
+  user-select:none;
+  -webkit-touch-callout:none;
+}
+
+/* Smooth scrolling */
+html { 
+  scroll-behavior:smooth;
+  -webkit-overflow-scrolling:touch;
+}
+
+/* Fix canvas on mobile */
+canvas { 
+  display:block; 
+  max-width:100%;
+  touch-action:none;
+}
+
 </style>
 </head>
 <body>
@@ -1585,6 +1795,7 @@ footer {
 
 <!-- ===================== SCRIPTS ===================== -->
 <script>
+console.log("🚀 AirWatch Pro Script Starting...");
 // ============================================================
 // TRANSLATIONS (UZ / RU / EN)
 // ============================================================
@@ -1638,7 +1849,7 @@ const TRANSLATIONS = {
     cta_title:"Bugun Havo Sifatini\nKuzatishni Boshlang", cta_sub:"Minglab atrof-muhit muhandislari, tadqiqotchilar va mutaxassislar AirWatch Pro dan foydalanadi.",
     footer_desc:"Real vaqt atmosfera ifloslanishini kuzatish va vizualizatsiya tizimi.",
     footer_product:"Mahsulot", footer_data:"Ma'lumot Manbalari", footer_dev:"Dasturchi",
-    footer_copy:"© 2026 AirWatch Pro — Olimov Muhammad Halim o'g'li · DI23-14",
+    footer_copy:"© 2026 AirWatch Pro — Istamqulov Farzod Abdushurovich · DI22-12",
     privacy:"Maxfiylik", terms:"Shartlar",
     ai_btn:"AI", login:"Kirish", logout:"Chiqish",
   },
@@ -1691,7 +1902,7 @@ const TRANSLATIONS = {
     cta_title:"Начните мониторинг\nкачества воздуха сегодня", cta_sub:"Тысячи экологических инженеров, исследователей и специалистов используют AirWatch Pro.",
     footer_desc:"Система мониторинга и визуализации загрязнения атмосферы в реальном времени.",
     footer_product:"Продукт", footer_data:"Источники данных", footer_dev:"Разработчик",
-    footer_copy:"© 2026 AirWatch Pro — Olimov Muhammad Halim o'g'li · DI23-14",
+    footer_copy:"© 2026 AirWatch Pro — Istamqulov Farzod Abdushurovich · DI22-12",
     privacy:"Конфиденциальность", terms:"Условия",
   },
   en: {
@@ -1743,7 +1954,7 @@ const TRANSLATIONS = {
     cta_title:"Start Monitoring Air\nQuality Today", cta_sub:"Join thousands of environmental engineers, researchers using AirWatch Pro.",
     footer_desc:"Advanced real-time atmospheric pollution detection and visualization system.",
     footer_product:"Product", footer_data:"Data Sources", footer_dev:"Developer",
-    footer_copy:"© 2026 AirWatch Pro — Olimov Muhammad Halim o'g'li · DI23-14",
+    footer_copy:"© 2026 AirWatch Pro — Istamqulov Farzod Abdushurovich · DI22-12",
     privacy:"Privacy", terms:"Terms",
   }
 };
@@ -1922,48 +2133,45 @@ const CITY_POSITIONS = {
 
 function drawMap() {
   const canvas=document.getElementById('map-canvas');
-  canvas.width=canvas.offsetWidth||330;
+  if(!canvas){console.error('Canvas not found');return;}
+  const parent=canvas.parentElement;
+  canvas.width=parent.clientWidth||parent.offsetWidth||330;
   canvas.height=180;
   const ctx=canvas.getContext('2d'),W=canvas.width,H=canvas.height;
   const dark=document.documentElement.getAttribute('data-theme')==='dark';
-
+  ctx.clearRect(0,0,W,H);
   const bg=ctx.createLinearGradient(0,0,W,H);
   bg.addColorStop(0,dark?'#021420':'#e8f4ff');
   bg.addColorStop(1,dark?'#041825':'#d4eeff');
   ctx.fillStyle=bg;ctx.fillRect(0,0,W,H);
-
-  // Grid
   ctx.strokeStyle=dark?'rgba(0,229,255,0.06)':'rgba(0,119,204,0.08)';
   ctx.lineWidth=.5;
   for(let x=0;x<W;x+=18){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
   for(let y=0;y<H;y+=18){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
-
-  // Heatmap blobs
-  Object.values(CITY_POSITIONS).forEach(p=>{
-    const g=ctx.createRadialGradient(p.x*W,p.y*H,0,p.x*W,p.y*H,55);
-    const alpha=dark?.2:.12;
-    g.addColorStop(0,p.c.replace('#','rgba(').replace(/([a-f0-9]{2})/gi,h=>parseInt(h,16)+',').replace(/,$/,`,${alpha})`));
-    // simpler:
-    const r=parseInt(p.c.slice(1,3),16);
-    const gr=parseInt(p.c.slice(3,5),16);
-    const b=parseInt(p.c.slice(5,7),16);
-    const grad=ctx.createRadialGradient(p.x*W,p.y*H,0,p.x*W,p.y*H,55);
-    grad.addColorStop(0,`rgba(${r},${gr},${b},${dark?.22:.13})`);
-    grad.addColorStop(1,`rgba(${r},${gr},${b},0)`);
+  if(typeof CITY_POSITIONS==='undefined'){console.error('CITY_POSITIONS undefined');return;}
+  Object.entries(CITY_POSITIONS).forEach(([id,p])=>{
+    const x=p.x*W,y=p.y*H,r=parseInt(p.c.slice(1,3),16),g=parseInt(p.c.slice(3,5),16),b=parseInt(p.c.slice(5,7),16);
+    const grad=ctx.createRadialGradient(x,y,0,x,y,55);
+    grad.addColorStop(0,`rgba(${r},${g},${b},${dark?.25:.15})`);
+    grad.addColorStop(1,`rgba(${r},${g},${b},0)`);
     ctx.fillStyle=grad;ctx.fillRect(0,0,W,H);
   });
-
-  // Station dots
   Object.entries(CITY_POSITIONS).forEach(([id,p])=>{
-    const x=p.x*W,y=p.y*H;
-    const r=parseInt(p.c.slice(1,3),16),g=parseInt(p.c.slice(3,5),16),b=parseInt(p.c.slice(5,7),16);
-    const isSelected=id===currentCityId;
+    const x=p.x*W,y=p.y*H,isSelected=id===currentCityId;
     ctx.beginPath();ctx.arc(x,y,isSelected?6:4,0,Math.PI*2);
     ctx.fillStyle=p.c;
     if(dark){ctx.shadowColor=p.c;ctx.shadowBlur=isSelected?14:8;}
     ctx.fill();ctx.shadowBlur=0;
-    if(dark){ctx.strokeStyle=`rgba(${r},${g},${b},0.3)`;ctx.lineWidth=isSelected?3:1.5;ctx.beginPath();ctx.arc(x,y,isSelected?10:7,0,Math.PI*2);ctx.stroke();}
+    if(dark&&isSelected){
+      const r=parseInt(p.c.slice(1,3),16),g=parseInt(p.c.slice(3,5),16),b=parseInt(p.c.slice(5,7),16);
+      ctx.strokeStyle=`rgba(${r},${g},${b},.4)`;ctx.lineWidth=3;
+      ctx.beginPath();ctx.arc(x,y,10,0,Math.PI*2);ctx.stroke();
+    }
   });
+  ctx.fillStyle=dark?'#39ff14':'#1a8f00';
+  ctx.font='9px "JetBrains Mono",monospace';
+  ctx.fillText('● LIVE',W-45,15);
+  console.log('✅ Map drawn:',W,'x',H);
 }
 
 // ============================================================
@@ -2312,22 +2520,30 @@ function handleSearch() {
 
 // Rankings
 async function loadRankings() {
-  const data = await fetchRankings();
   const body = document.getElementById('rankings-body');
-  body.innerHTML = data.map((c,i)=>{
-    const aqi=c.reading?.aqi||c.aqi||0;
-    const cat=getCategory(aqi);
-    const pm=c.reading?.pm25||'—';
-    const name = c.name || (CITY_PROFILES_FE[c.id]?.flag+' '+c.id);
-    const country = c.country || '';
-    return `<div class="table-row" onclick="loadCity('${c.id}')">
-      <span class="rank-num">${i+1}</span>
-      <div><div class="city-name-cell">${name}</div><div class="city-country">${country}</div></div>
-      <div><span class="aqi-badge" style="background:${cat.color}22;color:${cat.color};">${aqi}</span></div>
-      <span class="poll-cell">${pm} μg</span>
-      <div><span class="status-badge" style="background:${cat.color}18;color:${cat.color};">${cat.label[currentLang]}</span></div>
-    </div>`;
-  }).join('');
+  if(!body)return;
+  body.innerHTML = '<div style="padding:1.5rem;color:var(--text-muted);">⏳ Yuklanmoqda...</div>';
+  try{
+    const data=await fetchRankings()||Object.entries(CITY_PROFILES_FE).map(([id,p])=>({
+      id,name:p.name||p.flag+' '+id,aqi:Math.round(noise(p.aqi)),
+      reading:{aqi:Math.round(noise(p.aqi)),pm25:noise(p.pm25)}
+    })).sort((a,b)=>b.aqi-a.aqi).slice(0,10);
+    if(!data||data.length===0){body.innerHTML='<div style="padding:1.5rem;color:var(--accent-yellow);">⚠️ Ma\'lumot yo\'q</div>';return;}
+    body.innerHTML = data.map((c,i)=>{
+      const aqi=c.reading?.aqi||c.aqi||0;
+      const cat=getCategory(aqi);
+      const pm=Math.round(c.reading?.pm25||0);
+      const name = c.name || (CITY_PROFILES_FE[c.id]?.flag+' '+c.id);
+      return `<div class="table-row" onclick="loadCity('${c.id}')" style="cursor:pointer;">
+        <span class="rank-num">${i+1}</span>
+        <div><div class="city-name-cell">${name}</div></div>
+        <div><span class="aqi-badge" style="background:${cat.color}22;color:${cat.color};">${aqi}</span></div>
+        <span class="poll-cell">${pm} μg</span>
+        <div><span class="status-badge" style="background:${cat.color}18;color:${cat.color};">${cat.label[currentLang]||cat.label.uz}</span></div>
+      </div>`;
+    }).join('');
+    console.log('✅ Rankings loaded:',data.length);
+  }catch(e){console.error('Rankings error:',e);body.innerHTML='<div style="padding:1.5rem;color:var(--accent-red);">❌ Xatolik</div>';}
 }
 
 // Alert form submit
