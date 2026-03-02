@@ -48,6 +48,7 @@ const CITIES = [
   { id: 'paris',       name: 'Paris',        country: 'FR', lat: 48.8566, lon: 2.3522, timezone: 'Europe/Paris' },
   { id: 'new-york',    name: 'New York',     country: 'US', lat: 40.7128, lon: -74.0060, timezone: 'America/New_York' },
   { id: 'sydney',      name: 'Sydney',       country: 'AU', lat: -33.8688, lon: 151.2093, timezone: 'Australia/Sydney' },
+  { id: 'qarshi',       name: 'Qarshi',       country: 'UZ', lat: 38.8564, lon: 65.7845, timezone: 'Asia/Tashkent' },
 ];
 
 // Base pollution profiles per city (realistic baselines)
@@ -67,6 +68,7 @@ const CITY_PROFILES = {
   'paris':       { aqi: 55,  pm25: 12, pm10: 22, o3: 71, no2: 35, so2: 6,  co: 0.3 },
   'new-york':    { aqi: 67,  pm25: 16, pm10: 28, o3: 88, no2: 48, so2: 7,  co: 0.4 },
   'sydney':      { aqi: 32,  pm25: 7,  pm10: 14, o3: 44, no2: 21, so2: 3,  co: 0.2 },
+  'qarshi':      { aqi: 110, pm25: 40, pm10: 65, o3: 30, no2: 50, so2: 10, co: 0.5 },
 };
 
 // AQI Category helper
