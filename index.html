@@ -138,6 +138,18 @@
     <div class="search-chips fade-in">
       <span class="chip" onclick="loadCity('tashkent')">🇺🇿 Toshkent</span>
       <span class="chip" onclick="loadCity('samarkand')">🇺🇿 Samarqand</span>
+      <span class="chip" onclick="loadCity('xorazm')">🇺🇿 Xorazm</span>
+      <span class="chip" onclick="loadCity('qarshi')">🇺🇿 Qarshi</span>
+      <span class="chip" onclick="loadCity('andijan')">🇺🇿 Andijon</span>
+      <span class="chip" onclick="loadCity('bukhara')">🇺🇿 Bukhara</span>
+      <span class="chip" onclick="loadCity('namangan')">🇺🇿 Namangan</span>
+      <span class="chip" onclick="loadCity('navoiy')">🇺🇿 Navoiy</span>
+      <span class="chip" onclick="loadCity('fargona')">🇺🇿 Farg'ona</span>
+      <span class="chip" onclick="loadCity('jizzakh')">🇺🇿 Jizzax</span>
+      <span class="chip" onclick="loadCity('surkhandarya')">🇺🇿 Surxondaryo</span>
+      <span class="chip" onclick="loadCity('qashqadaryo')">🇺🇿 Qashqadaryo</span>
+      <span class="chip" onclick="loadCity('sirdaryo')">🇺🇿 Sirdaryo</span>
+      <span class="chip" onclick="loadCity('karakalpakstan')">🇺🇿 Karakalpakstan</span>
       <span class="chip" onclick="loadCity('beijing')">🇨🇳 Beijing</span>
       <span class="chip" onclick="loadCity('new-delhi')">🇮🇳 New Delhi</span>
       <span class="chip" onclick="loadCity('london')">🇬🇧 London</span>
@@ -431,11 +443,18 @@
           <select id="alert-city" class="form-select">
             <option value="tashkent">🇺🇿 Toshkent</option>
             <option value="samarkand">🇺🇿 Samarqand</option>
-            <option value="beijing">🇨🇳 Beijing</option>
-            <option value="new-delhi">🇮🇳 New Delhi</option>
-            <option value="london">🇬🇧 London</option>
-            <option value="tokyo">🇯🇵 Tokyo</option>
-            <option value="moscow">🇷🇺 Moscow</option>
+            <option value="karakalpakstan">🇺🇿 Karakalpakstan</option>
+            <option value="xorazm">🇺🇿 Xorazm</option>
+            <option value="qarshi">🇺🇿 Qarshi</option>
+            <option value="andijan">🇺🇿 Andijon</option>
+            <option value="bukhara">🇺🇿 Bukhara</option>
+            <option value="namangan">🇺🇿 Namangan</option>
+            <option value="navoiy">🇺🇿 Navoiy</option>
+            <option value="fargona">🇺🇿 Farg'ona</option>
+            <option value="jizzakh">🇺🇿 Jizzax</option>
+            <option value="surkhandarya">🇺🇿 Surxondaryo</option>
+            <option value="qashqadaryo">🇺🇿 Qashqadaryo</option>
+            <option value="sirdaryo">🇺🇿 Sirdaryo</option>
           </select>
         </div>
         <div class="form-group">
@@ -512,7 +531,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <p data-i18n="footer_copy">© 2026 AirWatch Pro — Istamqulov Farzod Abdushurovich · DI22-12</p>
+    <p data-i18n="footer_copy">© 2026 AirWatch Pro — Istamqulov Farzod Abdushurovich · DI22-11</p>
     <div class="footer-links">
       <a href="#" data-i18n="privacy">Maxfiylik</a>
       <a href="#" data-i18n="terms">Shartlar</a>
@@ -920,6 +939,14 @@ const CITY_POSITIONS = {
   'namangan':    {x:.57,y:.35,aqi:118,c:'#ff8c00'},
   'fergana':     {x:.58,y:.44,aqi:95, c:'#ffd600'},
   'bukhara':     {x:.38,y:.50,aqi:62, c:'#39ff14'},
+  'xorazm':      {x:.40,y:.42,aqi:88, c:'#ffd600'},
+  'navoiy':      {x:.52,y:.48,aqi:78, c:'#39ff14'},
+  'qarshi':      {x:.45,y:.45,aqi:110, c:'#ff8c00'},
+  'andijan':     {x:.53,y:.38,aqi:105, c:'#ff8c00'},
+  'fargona':     {x:.56,y:.42,aqi:92, c:'#ffd600'},
+  'jizzakh':     {x:.51,y:.32,aqi:88, c:'#ffd600'},
+  'surkhandarya':{x:.47,y:.52,aqi:92, c:'#ffd600'},
+  'karakalpakstan': {x:.45,y:.48,aqi:78, c:'#39ff14'},
   'beijing':     {x:.80,y:.35,aqi:187,c:'#ff2d55'},
   'new-delhi':   {x:.63,y:.52,aqi:215,c:'#aa00ff'},
   'london':      {x:.28,y:.22,aqi:48, c:'#39ff14'},
@@ -981,7 +1008,14 @@ function drawMap() {
 const API_BASE = 'http://localhost:3000';
 const CITY_PROFILES_FE = {
   'tashkent':    {aqi:145,pm25:58,pm10:94,o3:42,no2:82,so2:15,co:0.8,flag:'🇺🇿',name:'Toshkent, O\'zbekiston'},
+  'qaraqalpakstan': {aqi:78,pm25:22,pm10:45,o3:38,no2:41,so2:8,co:0.4,flag:'🇺🇿',name:'Qoraqalpog\'iston, O\'zbekiston'},
+  'xorazm':      {aqi:88,pm25:25,pm10:68,o3:58,no2:38,so2:11,co:0.4,flag:'🇺🇿',name:'Xorazm, O\'zbekiston'},
+  'navoiy':      {aqi:78,pm25:22,pm10:45,o3:38,no2:41,so2:8,co:0.4,flag:'🇺🇿',name:'Navoiy, O\'zbekiston'},
   'samarkand':   {aqi:78,pm25:22,pm10:45,o3:38,no2:41,so2:8,co:0.4,flag:'🇺🇿',name:'Samarqand, O\'zbekiston'},
+  'jizzakh':     {aqi:78,pm25:22,pm10:45,o3:38,no2:41,so2:8,co:0.4,flag:'🇺🇿',name:'Jizzax, O\'zbekiston'},
+  'qashqadaryo':   {aqi:110,pm25:35,pm10:60,o3:40,no2:50,so2:10,co:0.5,flag:'🇺🇿',name:'Qashqadaryo, O\'zbekiston'},
+  'surkhandarya':   {aqi:92,pm25:28,pm10:50,o3:45,no2:42,so2:9,co:0.4,flag:'🇺🇿',name:'Surxondaryo, O\'zbekiston'},
+  'sirdaryo':   {aqi:78,pm25:22,pm10:45,o3:38,no2:41,so2:8,co:0.4,flag:'🇺🇿',name:'Sirdaryo, O\'zbekiston'},
   'namangan':    {aqi:118,pm25:44,pm10:72,o3:35,no2:64,so2:12,co:0.6,flag:'🇺🇿',name:'Namangan, O\'zbekiston'},
   'fergana':     {aqi:95,pm25:31,pm10:58,o3:40,no2:55,so2:9,co:0.5,flag:'🇺🇿',name:'Farg\'ona, O\'zbekiston'},
   'bukhara':     {aqi:62,pm25:18,pm10:38,o3:45,no2:32,so2:6,co:0.3,flag:'🇺🇿',name:'Buxoro, O\'zbekiston'},
@@ -1186,7 +1220,15 @@ const CITY_LIST = [
 // Also support English & Russian names for search
 const CITY_ALIASES = {
   'tashkent':    ['tashkent','toshkent','ташкент','toshkend'],
+  'qaraqalpakstan': ['qaraqalpakstan','karakalpakstan','қорақалпоқистон'],
+  'xorazm':      ['xorazm','xorezm','хорезм'],
+  'navoiy':      ['navoiy','navoiy','навоий'],
   'samarkand':   ['samarkand','samarqand','самарканд'],
+  'jizzakh':     ['jizzakh','jizzax','жиззах'],
+  'qashqadaryo':   ['qashqadaryo','kashkadaryo','қашқадарё'],
+  'surkhandarya':   ['surkhandarya','surxondaryo','сурхандарё'],
+  'sirdaryo':   ['sirdaryo','sirdaryo','сирдарё'],
+  'andijan':     ['andijan','andijon','андижан'],
   'namangan':    ['namangan','наманган'],
   'fergana':     ['fergana','fargona','фергана'],
   'bukhara':     ['bukhara','buxoro','бухара'],

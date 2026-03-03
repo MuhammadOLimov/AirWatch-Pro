@@ -1,5 +1,3 @@
-
-
 const express = require('express');
 const cors = require('cors');
 const http = require('http');
@@ -49,6 +47,14 @@ const CITIES = [
   { id: 'new-york',    name: 'New York',     country: 'US', lat: 40.7128, lon: -74.0060, timezone: 'America/New_York' },
   { id: 'sydney',      name: 'Sydney',       country: 'AU', lat: -33.8688, lon: 151.2093, timezone: 'Australia/Sydney' },
   { id: 'qarshi',       name: 'Qarshi',       country: 'UZ', lat: 38.8564, lon: 65.7845, timezone: 'Asia/Tashkent' },
+  { id: 'andijan',       name: 'Andijan',       country: 'UZ', lat: 40.7828, lon: 72.3442, timezone: 'Asia/Tashkent' },
+  { id: 'navoiy',       name: 'Navoiy',       country: 'UZ', lat: 40.0818, lon: 65.3615, timezone: 'Asia/Tashkent' },
+  { id: 'karakalpakstan',       name: 'Karakalpakstan',       country: 'UZ', lat: 42.0818, lon: 69.3615, timezone: 'Asia/Tashkent' },
+  { id: 'xorazm',       name: 'Xorazm',       country: 'UZ', lat: 41.0818, lon: 63.3615, timezone: 'Asia/Tashkent' },
+  { id: 'sirdaryo',       name: 'Sirdaryo',       country: 'UZ', lat: 40.0818, lon: 68.3615, timezone: 'Asia/Tashkent' },
+  { id: 'jizzakh',       name: 'Jizzakh',       country: 'UZ', lat: 40.0818, lon: 67.3615, timezone: 'Asia/Tashkent' },
+  { id: 'surkhandarya',       name: 'Surkhandarya',       country: 'UZ', lat: 38.0818, lon: 68.3615, timezone: 'Asia/Tashkent' },
+
 ];
 
 // Base pollution profiles per city (realistic baselines)
@@ -69,6 +75,13 @@ const CITY_PROFILES = {
   'new-york':    { aqi: 67,  pm25: 16, pm10: 28, o3: 88, no2: 48, so2: 7,  co: 0.4 },
   'sydney':      { aqi: 32,  pm25: 7,  pm10: 14, o3: 44, no2: 21, so2: 3,  co: 0.2 },
   'qarshi':      { aqi: 110, pm25: 40, pm10: 65, o3: 30, no2: 50, so2: 10, co: 0.5 },
+  'andijan':     { aqi: 105, pm25: 36, pm10: 60, o3: 32, no2: 48, so2: 9,  co: 0.5 },
+  'navoiy':      { aqi: 80,  pm25: 20, pm10: 40, o3: 35, no2: 30, so2: 7,  co: 0.4 },
+  'karakalpakstan': { aqi: 90, pm25: 28, pm10: 50, o3: 33, no2: 40, so2: 8, co: 0.5 },
+  'xorazm':      { aqi: 85, pm25: 24, pm10: 45, o3: 31, no2: 35, so2: 7, co: 0.4 },
+  'sirdaryo':    { aqi: 95, pm25: 30, pm10: 55, o3: 29, no2: 42, so2: 9, co: 0.5 },
+  'jizzakh':     { aqi: 88, pm25: 26, pm10: 48, o3: 28, no2: 38, so2: 8, co: 0.4 },
+  'surkhandarya': { aqi: 92, pm25: 32, pm10: 60, o3: 27, no2: 45, so2: 10, co: 0.5 },
 };
 
 // AQI Category helper
@@ -202,30 +215,6 @@ function rateLimit(max = 100, windowMs = 60000) {
 app.get('/', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
-
-// API Info
-app.get('/api', (req, res) => {
-  res.json({
-    name: 'AirWatch Pro API',
-    version: '2.0.0',
-    author: 'Farzod Abdushurovich · DI22-12',
-    documentation: '/api/docs',
-    endpoints: {
-      cities:      'GET /api/v1/cities',
-      airQuality:  'GET /api/v1/air-quality/:cityId',
-      historical:  'GET /api/v1/historical/:cityId?hours=24',
-      forecast:    'GET /api/v1/forecast/:cityId',
-      nearby:      'GET /api/v1/stations/nearby?lat=...&lon=...&radius=...',
-      search:      'GET /api/v1/search?q=...',
-      rankings:    'GET /api/v1/rankings?order=asc|desc&limit=10',
-      alerts:      'POST /api/v1/alerts/subscribe',
-      health:      'GET /api/health',
-      websocket:   'ws://localhost:PORT/ws/live?city=...',
-    },
-    demo_key: 'demo-key-12345',
-  });
-});
-
 // Health check
 app.get('/api/health', (req, res) => {
   res.json({
