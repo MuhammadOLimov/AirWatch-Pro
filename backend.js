@@ -37,7 +37,6 @@ const CITIES = [
   { id: 'fergana',     name: 'Fergana',      country: 'UZ', lat: 40.3842, lon: 71.7843, timezone: 'Asia/Tashkent' },
   { id: 'bukhara',     name: 'Bukhara',      country: 'UZ', lat: 39.7747, lon: 64.4286, timezone: 'Asia/Tashkent' },
   { id: 'beijing',     name: 'Beijing',      country: 'CN', lat: 39.9042, lon: 116.4074, timezone: 'Asia/Shanghai' },
-  { id: 'new-delhi',   name: 'New Delhi',    country: 'IN', lat: 28.6139, lon: 77.2090, timezone: 'Asia/Kolkata' },
   { id: 'london',      name: 'London',       country: 'GB', lat: 51.5074, lon: -0.1278, timezone: 'Europe/London' },
   { id: 'los-angeles', name: 'Los Angeles',  country: 'US', lat: 34.0522, lon: -118.2437, timezone: 'America/Los_Angeles' },
   { id: 'tokyo',       name: 'Tokyo',        country: 'JP', lat: 35.6762, lon: 139.6503, timezone: 'Asia/Tokyo' },
@@ -59,13 +58,12 @@ const CITIES = [
 
 // Base pollution profiles per city (realistic baselines)
 const CITY_PROFILES = {
-  'tashkent':    { aqi: 145, pm25: 58, pm10: 94, o3: 42, no2: 82, so2: 15, co: 0.8 },
-  'samarkand':   { aqi: 78,  pm25: 22, pm10: 45, o3: 38, no2: 41, so2: 8,  co: 0.4 },
+  'tashkent':    { aqi: 100, pm25: 58, pm10: 94, o3: 42, no2: 82, so2: 15, co: 0.8 },
+  'samarkand':   { aqi: 65,  pm25: 22, pm10: 45, o3: 38, no2: 41, so2: 8,  co: 0.4 },
   'namangan':    { aqi: 118, pm25: 44, pm10: 72, o3: 35, no2: 64, so2: 12, co: 0.6 },
   'fergana':     { aqi: 95,  pm25: 31, pm10: 58, o3: 40, no2: 55, so2: 9,  co: 0.5 },
   'bukhara':     { aqi: 62,  pm25: 18, pm10: 38, o3: 45, no2: 32, so2: 6,  co: 0.3 },
   'beijing':     { aqi: 187, pm25: 94, pm10: 143, o3: 56, no2: 110, so2: 28, co: 1.4 },
-  'new-delhi':   { aqi: 215, pm25: 125, pm10: 187, o3: 61, no2: 96, so2: 22, co: 1.8 },
   'london':      { aqi: 48,  pm25: 10, pm10: 18, o3: 69, no2: 33, so2: 5,  co: 0.3 },
   'los-angeles': { aqi: 91,  pm25: 22, pm10: 39, o3: 112, no2: 44, so2: 9,  co: 0.6 },
   'tokyo':       { aqi: 52,  pm25: 11, pm10: 21, o3: 55, no2: 28, so2: 4,  co: 0.2 },
